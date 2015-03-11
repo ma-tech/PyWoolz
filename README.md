@@ -15,26 +15,26 @@ shared library path.
 
 Simple example:
 
-import sys
-from ctypes import *
-from Wlz import *
+    import sys
+    from ctypes import *
+    from Wlz import *
 
-libc = ctypes.CDLL("libc.so.6")
-fopen = libc.fopen
-fclose = libc.fclose
+    libc = ctypes.CDLL("libc.so.6")
+    fopen = libc.fopen
+    fclose = libc.fclose
 
-errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
+    errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
 
-print "WlzVersion() = ", WlzVersion()
+    print "WlzVersion() = ", WlzVersion()
 
-fp = fopen('test.wlz', 'rb')
-obj = WlzReadObj(fp, byref(errNum))
-fclose(fp)
+    fp = fopen('test.wlz', 'rb')
+    obj = WlzReadObj(fp, byref(errNum))
+    fclose(fp)
 
-v = WlzVolume(obj, byref(errNum))
-print "The volume of obj =", v, \
-      " (errNum =", WlzStringFromErrorNum(errNum, None) + ")"
+    v = WlzVolume(obj, byref(errNum))
+    print "The volume of obj =", v, \
+          " (errNum =", WlzStringFromErrorNum(errNum, None) + ")"
 
-WlzFreeObj(obj)
+    WlzFreeObj(obj)
 
 
