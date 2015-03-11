@@ -1,21 +1,23 @@
 
 CTG		= ctypesgen.py
-MA		= /home/bill/MouseAtlas/Build
-CFLAGS		= -shared
+WLZDIR		= $$HOME/MouseAtlas/Build
+#WLZDIR		= $$HOME/MouseAtlas/Build/debug
+CFLAGS		= -shared -g
 
 Wlz.py:		libPyWlz.so
 		$(CTG) -o Wlz.py \
-		       -I$(MA)/debug/include -L . -L$(MA)/debug/lib \
+		       -I$(WLZDIR)/include \
+		       -L. -L$(WLZDIR)/lib \
 		       -l libPyWlz.so \
-		       $(MA)/include/Wlz.h \
-		       $(MA)/include/WlzType.h \
-		       $(MA)/include/WlzProto.h \
-		       $(MA)/include/WlzError.h
+		       $(WLZDIR)/include/Wlz.h \
+		       $(WLZDIR)/include/WlzType.h \
+		       $(WLZDIR)/include/WlzProto.h \
+		       $(WLZDIR)/include/WlzError.h
 
 libPyWlz.so:
 		$(CC) $(CFLAGS) -o $@ \
 		      -Wl,--whole-archive \
-		      -L$(MA)/lib -lWlz -lAlg -lAlc \
+		      -L$(WLZDIR)/lib -lWlz -lAlg -lAlc \
 		      -Wl,--no-whole-archive \
 		      -lgomp
 
