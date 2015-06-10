@@ -10,6 +10,11 @@ Wlz.py:		libPyWlz.so
 		       -L. -L$(WLZDIR)/lib \
 		       -l libPyWlz.so \
 		       $(WLZDIR)/include/Wlz.h \
+		       $(WLZDIR)/include/AlcType.h \
+		       $(WLZDIR)/include/AlcProto.h \
+		       $(WLZDIR)/include/AlgType.h \
+		       $(WLZDIR)/include/AlgProto.h \
+		       $(WLZDIR)/include/Wlz.h \
 		       $(WLZDIR)/include/WlzType.h \
 		       $(WLZDIR)/include/WlzProto.h \
 		       $(WLZDIR)/include/WlzError.h
