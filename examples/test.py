@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# Tests of basic access to Woolz objects.
 
 import sys
 from ctypes import *
