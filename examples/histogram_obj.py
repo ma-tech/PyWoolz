@@ -14,9 +14,9 @@ fclose = libc.fclose
 
 errNum = Wlz.enum__WlzErrorNum(Wlz.WLZ_ERR_NONE)
 
-f = 'test3d.wlz'
+f = 'test.wlz'
 
-print('Read a 3D test object from the file ' +  f);
+print('Read test object from the file ' +  f);
 fp = fopen(f, 'rb')
 obj = Wlz.WlzAssignObject(Wlz.WlzReadObj(fp, ctypes.byref(errNum)), None)
 fclose(fp)
@@ -45,7 +45,7 @@ if(bool(errNum)):
 print('Plotting histogram')
 hist   = hobj.contents.domain.hist.contents;
 n_bins = hist.nBins
-center = np.arange(n_bins) + 1.0;
+center = np.arange(n_bins) + 0.5;
 bins = [0] * n_bins
 if(hist.type == Wlz.WLZ_HISTOGRAMDOMAIN_INT):
   for i in range(0, n_bins):
@@ -53,8 +53,9 @@ if(hist.type == Wlz.WLZ_HISTOGRAMDOMAIN_INT):
 elif(hist.type == Wlz.WLZ_HISTOGRAMDOMAIN_FLOAT):
   for i in range(0, n_bins):
     bins[i] = hist.binValues.dbp[i]
+pt.xlim(0,256)
 pt.yscale('log')
-pt.bar(center, bins, align='center', width=1)
+pt.bar(center, bins, align='center', width=1.0)
 pt.show()
 
 print('Free the objects')
