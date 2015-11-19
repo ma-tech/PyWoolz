@@ -1,6 +1,7 @@
 
 CTG		= ctypesgen.py
-WLZDIR		= $$HOME/MouseAtlas/Build
+WLZDIR		= /opt/MouseAtlas/
+#WLZDIR		= $$HOME/MouseAtlas/Build
 #WLZDIR		= $$HOME/MouseAtlas/Build/debug
 CFLAGS		= -shared -g
 
@@ -17,12 +18,15 @@ Wlz.py:		libPyWlz.so
 		       $(WLZDIR)/include/Wlz.h \
 		       $(WLZDIR)/include/WlzType.h \
 		       $(WLZDIR)/include/WlzProto.h \
-		       $(WLZDIR)/include/WlzError.h
+		       $(WLZDIR)/include/WlzError.h \
+		       $(WLZDIR)/include/WlzBnd.h \
+		       $(WLZDIR)/include/WlzBndType.h \
+		       $(WLZDIR)/include/WlzBndProto.h  
 
 libPyWlz.so:
 		$(CC) $(CFLAGS) -o $@ \
 		      -Wl,--whole-archive \
-		      -L$(WLZDIR)/lib -lWlz -lAlg -lAlc \
+		      -L$(WLZDIR)/lib -lWlzBnd -lWlz -lAlg -lAlc \
 		      -Wl,--no-whole-archive \
 		      -lgomp
 
