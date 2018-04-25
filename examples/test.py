@@ -18,7 +18,7 @@ print
 f = 'test.wlz'
 
 print "Read a test object from the file", f
-fp = fopen(f, 'rb')
+fp = cast(fopen(f, 'rb'), POINTER(FILE))
 obj = WlzReadObj(fp, byref(errNum))
 fclose(fp)
 print "obj = ", obj

@@ -13,6 +13,11 @@ files can be found, then type make. Once built copy the Python file (Wlz.py)
 and shared library file (libPyWlz.so) to somewhere in your Python path and
 shared library path.
 
+It is possible to generate a binding which is Python 3 compatible, but
+python 2 must be used to do this and a modified version of ctypesgen
+must be used. A suitable vesion of ctypesgen can be found at
+https://github.com/ma-tech/ctypesgen .
+
 Simple example:
 
     import sys
