@@ -1,8 +1,8 @@
 
 CTG		= ctypesgen.py
-WLZDIR		= /opt/MouseAtlas/
+#WLZDIR		= /opt/MouseAtlas/
 #WLZDIR		= $$HOME/MouseAtlas/Build
-#WLZDIR		= $$HOME/MouseAtlas/Build/debug
+WLZDIR		= $$HOME/MouseAtlas/Build/debug
 CFLAGS		= -shared -g
 
 Wlz.py:		libPyWlz.so

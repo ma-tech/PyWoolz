@@ -11,6 +11,8 @@ fclose = libc.fclose
 
 errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
 
+fopen.restype = POINTER(FILE)
+
 print "Get the version of Woolz"
 print "WlzVersion() = ", WlzVersion()
 print
@@ -18,7 +20,9 @@ print
 f = 'test.wlz'
 
 print "Read a test object from the file", f
-fp = cast(fopen(f, 'rb'), POINTER(FILE))
+fp = fopen(f, 'rb')
+print "fp = ", fp
+
 obj = WlzReadObj(fp, byref(errNum))
 fclose(fp)
 print "obj = ", obj

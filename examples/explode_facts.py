@@ -13,6 +13,8 @@ fclose = libc.fclose
 
 errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
 
+fopen.restype = POINTER(FILE)
+
 f = 'test3d.wlz'
 
 print('Read a 3D test object from the file ' +  f);

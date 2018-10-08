@@ -14,6 +14,8 @@ fclose = libc.fclose
 
 errNum = Wlz.enum__WlzErrorNum(Wlz.WLZ_ERR_NONE)
 
+fopen.restype = ctypes.POINTER(Wlz.FILE)
+
 f = 'test.wlz'
 
 print('Read test object from the file ' +  f);
