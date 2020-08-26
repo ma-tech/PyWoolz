@@ -24,21 +24,22 @@ Simple example:
     from ctypes import *
     from Wlz import *
 
-    libc = ctypes.CDLL("libc.so.6")
+    libc = ctypes.CDLL('libc.so.6')
     fopen = libc.fopen
     fclose = libc.fclose
+    fopen.restype = POINTER(FILE)
 
     errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
 
-    print "WlzVersion() = ", WlzVersion()
+    print('WlzVersion() = ' + str(WlzVersion()))
 
-    fp = fopen('test.wlz', 'rb')
+    fp = fopen(b'test.wlz', 'rb')
     obj = WlzReadObj(fp, byref(errNum))
     fclose(fp)
 
     v = WlzVolume(obj, byref(errNum))
-    print "The volume of obj =", v, \
-          " (errNum =", WlzStringFromErrorNum(errNum, None) + ")"
+    print('The volume of obj = ' + str(v) + \
+	  ' (errNum = ' +  str(WlzStringFromErrorNum(errNum, None)) + ')')
 
     WlzFreeObj(obj)
 
