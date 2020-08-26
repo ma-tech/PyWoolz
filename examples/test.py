@@ -108,3 +108,6 @@ print('The length of obj = ' + str(l) +
       ' (errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
 print()
 
+print('Free the object')
+WlzFreeObj(obj)
+print()
