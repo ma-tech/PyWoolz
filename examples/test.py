@@ -6,47 +6,66 @@ import sys
 from ctypes import *
 from Wlz import *
 
-def isPython3():
-  return (sys.version_info[0] == 3)
-
 libc = ctypes.CDLL("libc.so.6")
 fopen = libc.fopen
 fclose = libc.fclose
 
-errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
-
 fopen.restype = POINTER(FILE)
 
-print('Get the version of Woolz')
+errNum = enum__WlzErrorNum(WLZ_ERR_NONE)
+
+def isPython3():
+  return (sys.version_info[0] == 3)
+
+def readObject(f):
+  f = f.encode('ascii') if (isPython3) else f
+  print('Reading test object from the file ' + str(f))
+  fp = fopen(f, 'rb')
+  print('fp = ' + str(fp))
+  obj = WlzReadObj(fp, byref(errNum))
+  fclose(fp)
+  print('obj = ' + str(obj))
+  print('(errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
+  print()
+  return obj
+
+
+def printCoreObject(obj):
+  print('Print fields of the object structure directly')
+  print('Object   type    = ' + str(obj.contents.type))
+  print('Object linkcount = ' + str(obj.contents.linkcount))
+  print('Object domain    = ' + str(obj.contents.domain))
+  print('Object values    = ' + str(obj.contents.values))
+  print('Object  plist    = ' + str(obj.contents.plist))
+  print('Object  assoc    = ' + str(obj.contents.assoc))
+  print()
+
+def printObjectFacts(obj):
+  print('Print object facts')
+  facts = ctypes.cast(0, POINTER(c_char))
+  errNum = WlzObjectFacts(obj, None,  ctypes.byref(facts), 0);
+  facts = ctypes.cast(facts, c_char_p)
+  print('Facts = \n' + bytes.decode(facts.value))
+  print()
+
+print('*** Woolz Version ***')
+
 print('WlzVersion() = ' + str(WlzVersion()))
 print()
 
-f = 'test.wlz'
-f = f.encode('ascii') if (isPython3) else f
-print('Read a test object from the file' + str(f))
-fp = fopen(f, 'rb')
-print('fp = ' + str(fp))
+print('*** Domain Object Tests ***')
 
-obj = WlzReadObj(fp, byref(errNum))
-fclose(fp)
-print('obj = ' + str(obj))
-print('(errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
-print()
+obj = readObject('test.wlz')
 
-print('Print fields of the object structure directly')
-print('Object   type    = ' + str(obj.contents.type))
-print('Object linkcount = ' + str(obj.contents.linkcount))
-print('Object domain    = ' + str(obj.contents.domain))
-print('Object values    = ' + str(obj.contents.values))
-print('Object  plist    = ' + str(obj.contents.plist))
-print('Object  assoc    = ' + str(obj.contents.assoc))
-print
+printCoreObject(obj)
+
+printObjectFacts(obj)
 
 print('Compute the object\'s volume')
 v = WlzVolume(obj, byref(errNum))
 print('The volume of obj = ' + str(v) +
       ' (errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
-print
+print()
 
 print('Find simple object statistics')
 n = c_int(0)
@@ -68,7 +87,24 @@ print('g_ssq  = ' + str(g_ssq.value))
 print('g_mean = ' + str(g_mean.value))
 print('g_sdv  = ' + str(g_sdv.value))
 print('(errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
-print
+print()
 
 print('Free the object')
 WlzFreeObj(obj)
+print()
+
+
+print('*** B-Spline Tests ***')
+
+obj = readObject('test-bs.wlz')
+
+printCoreObject(obj)
+
+printObjectFacts(obj)
+
+print('Compute B-spline length')
+l = WlzBSplineLength(obj.contents.domain.bs, 0.0, 1.0, byref(errNum))
+print('The length of obj = ' + str(l) + 
+      ' (errNum = ' + str(WlzStringFromErrorNum(errNum, None)) + ')')
+print()
+
